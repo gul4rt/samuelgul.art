@@ -1,0 +1,84 @@
+---
+/* PostIndex — índice de publicações bilíngue, GERADO da collection (nada de lista à mão).
+   Recebe `lang` e monta a página completa do índice daquele idioma,
+   ordenada por data (mais recente no topo). Sem JS aqui. */
+import { getCollection } from 'astro:content';
+
+const { lang } = Astro.props;
+
+const T = lang === 'pt-br'
+  ? {
+      htmlLang: 'pt-BR', title: 'Publicações — gul4rt',
+      description: 'Publicações de gul4rt — notas sobre segurança, hardware e automação.',
+      langLabel: 'PT-BR', otherLabel: 'EN-US', ariaLang: 'idioma',
+      selfHref: '/pt-br/posts/', otherHref: '/posts/',
+      backLabel: 'VOLTAR AO TERMINAL',
+      kicker: 'SEC.02 — PUBLICAÇÕES', pageTitle: 'Registro de transmissões',
+    }
+  : {
+      htmlLang: 'en', title: 'Publications — gul4rt',
+      description: 'Publications by gul4rt — notes on security, hardware and automation.',
+      langLabel: 'EN-US', otherLabel: 'PT-BR', ariaLang: 'language',
+      selfHref: '/posts/', otherHref: '/pt-br/posts/',
+      backLabel: 'BACK TO TERMINAL',
+      kicker: 'SEC.02 — PUBLICATIONS', pageTitle: 'Transmission log',
+    };
+
+// posts do idioma, mais recente primeiro
+const posts = (await getCollection('posts', p => p.data.lang === lang))
+  .sort((a, b) => b.data.date - a.data.date);
+
+const hrefFor = p => (lang === 'pt-br' ? `/pt-br/posts/${p.data.slug}/` : `/posts/${p.data.slug}/`);
+---
+<!doctype html>
+<html lang={T.htmlLang}>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{T.title}</title>
+<meta name="description" content={T.description}>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- caminhos absolutos da raiz (profundidade variável entre /posts/ e /pt-br/posts/) -->
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/post.css">
+</head>
+<body>
+
+<div class="noise" aria-hidden="true"></div>
+
+<!-- header mínimo: logo + seletor de idioma + link de volta; sem JS aqui -->
+<header class="p-head">
+  <a class="p-logo" href="/">gul4rt<span class="blink"></span></a>
+  <nav class="p-lang" aria-label={T.ariaLang}>
+    <a href={T.selfHref} class="on">{T.langLabel}</a><span>/</span><a href={T.otherHref}>{T.otherLabel}</a>
+  </nav>
+  <a class="p-back" href="/"><b>&lt;</b>{T.backLabel}</a>
+</header>
+
+<main class="p-main">
+  <div class="p-wrap">
+    <p class="p-kicker"><b>//</b> {T.kicker}</p>
+    <h1 class="p-title">{T.pageTitle}</h1>
+
+    <!-- lista gerada da collection, ordenada por data (mais recente primeiro) -->
+    <div class="p-list">
+      {posts.map(p => (
+        <a class="p-item" href={hrefFor(p)}>
+          <span class="pi-date">{p.data.date.toISOString().slice(0, 10)} · {p.data.log}</span>
+          <div class="pi-title">{p.data.title}</div>
+          <p class="pi-sum">{p.data.description}</p>
+          <div class="pi-tags">{p.data.tags.map(t => <span>{t}</span>)}</div>
+        </a>
+      ))}
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

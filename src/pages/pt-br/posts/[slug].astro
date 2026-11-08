@@ -1,0 +1,16 @@
+---
+/* /pt-br/posts/[slug]/ — posts em PT-BR */
+import { getCollection, render } from 'astro:content';
+import PostLayout from '../../../layouts/PostLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', p => p.data.lang === 'pt-br');
+  return posts.map(entry => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<PostLayout entry={entry}>
+  <Content />
+</PostLayout>

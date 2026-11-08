@@ -1,0 +1,61 @@
+/* post.css — layout das páginas de post (posts/*.html) e do índice (posts/index.html).
+   Páginas 100% estáticas: só tokens.css + base.css + este arquivo. Sem JS, sem CDN. */
+
+/* ===== HEADER mínimo (mesmo espírito do #siteHeader da home, mas fixo e sem JS) ===== */
+.p-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px var(--edge);background:rgba(11,11,12,.82);backdrop-filter:blur(9px);border-bottom:1px solid var(--line)}
+.p-logo{font:600 17px var(--fh);color:var(--ink);text-decoration:none;letter-spacing:.01em}
+.p-logo .blink{display:inline-block;width:.52em;height:.05em;background:var(--g1);margin-left:4px;vertical-align:middle}
+.p-back{font:500 11px var(--fm);letter-spacing:.2em;color:var(--dim);text-decoration:none;transition:color .25s}
+.p-back:hover{color:var(--g1)}
+.p-back b{color:var(--acc);font-weight:500;margin-right:6px}
+
+/* seletor de idioma (páginas bilíngues pt-br/en-us das publicações) */
+.p-lang{display:flex;align-items:center;gap:8px;font:500 11px var(--fm);letter-spacing:.2em}
+.p-lang span{color:var(--faint)}
+.p-lang a{color:var(--faint);text-decoration:none;transition:color .25s}
+.p-lang a:hover{color:var(--g1)}
+.p-lang a.on{color:var(--g1)}
+
+/* ===== ARTIGO ===== */
+.p-main{position:relative;z-index:1;padding:130px 0 60px}
+.p-wrap{width:min(760px,92vw);margin-inline:auto}
+.p-kicker{font:500 12px var(--fm);letter-spacing:.24em;color:var(--g2);margin:0 0 20px}
+.p-kicker b{color:var(--acc);font-weight:500}
+.p-title{font:700 clamp(2rem,5.4vw,3.6rem)/1.08 var(--fh);letter-spacing:-.02em;margin:0 0 20px}
+.p-meta{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font:400 11px var(--fm);letter-spacing:.14em;color:var(--dim);margin:0 0 44px}
+.p-meta b{color:var(--g1);font-weight:500}
+.p-meta .sep{color:var(--faint)}
+
+/* ===== PROSA (corpo do post) ===== */
+.p-body{font:400 1.04rem/1.8 var(--fb);color:var(--body)}
+.p-body p{margin:0 0 24px}
+.p-body h2{font:600 1.5rem/1.25 var(--fh);color:var(--ink);margin:44px 0 16px}
+.p-body h3{font:600 1.15rem/1.3 var(--fh);color:var(--ink);margin:34px 0 12px}
+.p-body ul,.p-body ol{padding-left:22px;margin:0 0 24px}
+.p-body li{margin-bottom:8px}
+.p-body blockquote{margin:0 0 24px;padding:14px 20px;border-left:2px solid var(--g3);background:var(--panel);font-style:italic}
+.p-body code{font:400 .88em var(--fm);color:var(--g1);background:rgba(255,107,107,.08);padding:2px 6px;border-radius:3px}
+.p-body pre{background:var(--panel);border:1px solid var(--line);padding:18px 20px;overflow-x:auto;margin:0 0 24px}
+.p-body pre code{background:none;color:var(--body);padding:0;font-size:.9rem;line-height:1.7}
+.p-body img{max-width:100%;display:block;margin:0 0 24px;border:1px solid var(--line)}
+.p-body hr{border:0;border-top:1px dashed var(--line-2);margin:40px 0}
+
+/* ===== RODAPÉ do post (voltar pro índice / home) ===== */
+.p-foot{display:flex;justify-content:space-between;gap:16px;margin-top:56px;padding-top:24px;border-top:1px solid var(--line);font:500 11px var(--fm);letter-spacing:.18em;flex-wrap:wrap}
+
+/* ===== ÍNDICE (posts/index.html) ===== */
+.p-list-head{margin-bottom:36px}
+.p-list .p-item{display:block;text-decoration:none;border:1px solid var(--line);background:var(--panel);padding:26px 28px;margin-bottom:18px;transition:border-color .25s,transform .25s}
+.p-item:hover{border-color:var(--g3);transform:translateY(-2px)}
+.pi-date{font:400 11px var(--fm);letter-spacing:.18em;color:var(--g2)}
+.pi-title{font:600 1.3rem/1.3 var(--fh);color:var(--ink);margin:8px 0 10px}
+.pi-sum{font:400 .95rem/1.65 var(--fb);color:var(--body);margin:0 0 14px}
+.pi-tags{display:flex;flex-wrap:wrap;gap:8px}
+.pi-tags span{font:400 10px var(--fm);letter-spacing:.14em;color:var(--dim);border:1px solid var(--line);padding:3px 9px}
+
+@media(max-width:640px){
+  .p-head{padding:14px 16px}
+  .p-back{letter-spacing:.1em}
+  .p-meta{margin-bottom:32px}
+  .p-item{padding:20px 18px}
+}

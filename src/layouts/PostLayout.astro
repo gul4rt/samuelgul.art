@@ -1,0 +1,98 @@
+---
+/* PostLayout — layout dos posts: header mínimo + meta + prosa + rodapé.
+   A marcação espelha os antigos posts/*.html; a tradução irmã é achada
+   automaticamente pelo slug igual no par bilíngue. Sem JS aqui. */
+import { getCollection } from 'astro:content';
+
+const { entry } = Astro.props;
+const lang = entry.data.lang;
+
+// tradução irmã: mesmo slug, outro idioma (pode não existir — o seletor esconde)
+const siblings = await getCollection('posts',
+  p => p.data.slug === entry.data.slug && p.data.lang !== lang
+);
+const other = siblings[0];
+const otherHref = other
+  ? (other.data.lang === 'pt-br' ? `/pt-br/posts/${other.data.slug}/` : `/posts/${other.data.slug}/`)
+  : null;
+
+// rótulos por idioma
+const T = lang === 'pt-br'
+  ? {
+      htmlLang: 'pt-BR', langLabel: 'PT-BR', otherLabel: 'EN-US',
+      kicker: 'PUBLICAÇÃO', metaDate: 'DATA', metaClass: 'CLASSE', metaLang: 'IDIOMA', metaBy: 'POR',
+      ariaLang: 'idioma', backHead: 'VOLTAR ÀS PUBLICAÇÕES', backFoot: 'TODAS AS PUBLICAÇÕES',
+      indexHref: '/pt-br/posts/',
+    }
+  : {
+      htmlLang: 'en', langLabel: 'EN-US', otherLabel: 'PT-BR',
+      kicker: 'PUBLICATION', metaDate: 'DATE', metaClass: 'CLASS', metaLang: 'LANG', metaBy: 'BY',
+      ariaLang: 'language', backHead: 'BACK TO PUBLICATIONS', backFoot: 'ALL PUBLICATIONS',
+      indexHref: '/posts/',
+    };
+
+const d = entry.data;
+const dateISO = d.date.toISOString().slice(0, 10);
+---
+<!doctype html>
+<html lang={T.htmlLang}>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{d.title} — gul4rt</title>
+<meta name="description" content={d.description}>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- posts vivem em /posts/slug/ e /pt-br/posts/slug/ (profundidade variável):
+     caminhos absolutos da raiz — o base do Astro cobre o caso de subpasta -->
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/post.css">
+</head>
+<body>
+
+<div class="noise" aria-hidden="true"></div>
+
+<!-- header mínimo: logo + seletor de idioma + link de volta; sem JS aqui -->
+<header class="p-head">
+  <a class="p-logo" href="/">gul4rt<span class="blink"></span></a>
+  <nav class="p-lang" aria-label={T.ariaLang}>
+    <a href={Astro.url.pathname} class="on">{T.langLabel}</a>
+    {other && (
+      <>
+        <span>/</span>
+        <a href={otherHref}>{T.otherLabel}</a>
+      </>
+    )}
+  </nav>
+  <a class="p-back" href={T.indexHref}><b>&lt;</b>{T.backHead}</a>
+</header>
+
+<main class="p-main">
+  <article class="p-wrap">
+    <p class="p-kicker"><b>//</b> {T.kicker} — {d.log}</p>
+    <h1 class="p-title">{d.title}</h1>
+    <div class="p-meta">
+      <span>{T.metaDate}: <b>{dateISO}</b></span><span class="sep">/</span>
+      <span>{T.metaClass}: <b>{d.class}</b></span><span class="sep">/</span>
+      <span>{T.metaLang}: <b>{T.langLabel}</b></span><span class="sep">/</span>
+      <span>{T.metaBy}: <b>gul4rt</b></span>
+    </div>
+
+    <div class="p-body">
+      <slot />
+    </div>
+
+    <div class="p-foot">
+      <a class="p-back" href={T.indexHref}><b>&lt;</b>{T.backFoot}</a>
+      <span style="color:var(--faint)">EOF // {d.log}</span>
+    </div>
+  </article>
+</main>
+
+</body>
+</html>

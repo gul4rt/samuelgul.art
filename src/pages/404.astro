@@ -1,0 +1,106 @@
+---
+/* 404 — signal lost. Mesma marcação da antiga 404.html, sem o fix de
+   profundidade: o script é bundleado pelo Astro (URL absoluta /_astro/…)
+   e os CSS vão por caminho absoluto da raiz — funciona em qualquer URL
+   profunda que o Pages servir esta página.
+   Os data-text têm o texto como conteúdo: legível mesmo sem JS. */
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — signal lost</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+
+<style is:global>
+  /* estilos exclusivos desta página de erro (o resto do site não precisa deles) */
+  .n404{
+    position:relative;z-index:1;min-height:100vh;min-height:100dvh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:18px;text-align:center;padding:24px;
+  }
+  .n404-code{
+    font:700 clamp(5.5rem,22vw,15rem)/0.9 var(--fh);
+    letter-spacing:-.02em;color:var(--ink);margin:0;user-select:none;
+  }
+  .n404-msg{
+    font:500 clamp(.8rem,2.4vw,1.05rem)/1 var(--fm);
+    letter-spacing:.42em;text-indent:.42em;color:var(--dim);margin:0;user-select:none;
+  }
+  .n404-back{
+    margin-top:26px;font:500 11px var(--fm);letter-spacing:.22em;
+    color:var(--faint);text-decoration:none;transition:color .25s ease;
+  }
+  .n404-back:hover{color:var(--g1)}
+  /* mesmo vocabulário do scramble.js usado no hero */
+  .sc-rnd{color:var(--g3)}
+</style>
+</head>
+<body>
+
+<div class="noise" aria-hidden="true"></div>
+
+<main class="n404">
+  <h1 class="n404-code" data-text="404">404</h1>
+  <p class="n404-msg" data-text="NOT FOUND">NOT FOUND</p>
+  <a class="n404-back" href="/" data-text="// RETURN TO BASE">// RETURN TO BASE</a>
+</main>
+
+<script>
+/* glitch 404 — decode inicial com scramble.js + flicker contínuo de pixels.
+   O GitHub Pages serve esta página NA própria URL errada, mas o bundle do
+   Astro tem URL absoluta — não depende da profundidade. O scramble.js vem
+   de /assets (public), resolvido em runtime. */
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const CH = '!<>-_\\/[]{}=+*^?#01';
+const els = [...document.querySelectorAll('[data-text]')];
+
+if (RM) {
+  // motion reduzido: texto estático, sem decode nem flicker
+  els.forEach(el => { el.textContent = el.dataset.text; });
+} else {
+  // @vite-ignore: import em runtime de asset de public/ (não é módulo do bundle)
+  const { scramble } = await import(/* @vite-ignore */ '/assets/js/ui/scramble.js');
+
+  // entrada: decodifica na ordem (número, mensagem, link), como no hero
+  els.forEach((el, i) => setTimeout(() => scramble(el, el.dataset.text, 850), 180 + i * 200));
+
+  // depois de assentado, oscila caracteres aleatórios por alguns frames — pixels instáveis
+  const tick = () => {
+    const el = els[(Math.random() * els.length) | 0];
+    const txt = el.dataset.text;
+    const idx = [...txt.keys()].filter(i => !/\s/.test(txt[i]));
+    const hits = new Set();
+    const n = 1 + (Math.random() * 3 | 0);
+    for (let k = 0; k < n && idx.length; k++) hits.add(idx[(Math.random() * idx.length) | 0]);
+
+    let f = 0, frames = 2 + (Math.random() * 4 | 0);
+    const frame = () => {
+      if (f++ < frames) {
+        el.innerHTML = [...txt].map((c, i) =>
+          hits.has(i) ? '<span class="sc-rnd">' + CH[(Math.random() * CH.length) | 0] + '</span>' : c
+        ).join('');
+        requestAnimationFrame(frame);
+      } else {
+        el.textContent = txt;
+      }
+    };
+    frame();
+
+    setTimeout(tick, 900 + Math.random() * 2600); // próxima oscilação
+  };
+  setTimeout(tick, 2200); // espera o decode inicial terminar
+}
+</script>
+</body>
+</html>

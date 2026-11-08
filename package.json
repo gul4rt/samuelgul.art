@@ -1,0 +1,16 @@
+{
+  "name": "blog-sec",
+  "version": "1.0.0",
+  "description": "gul4rt — personal blog/portfolio (Astro, output 100% estático)",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^7.4.7"
+  }
+}

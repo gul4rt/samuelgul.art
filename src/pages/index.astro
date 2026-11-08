@@ -1,0 +1,239 @@
+---
+/* index — a one-page (home). Marcação verbatim da antiga index.html:
+   mesmo head, mesma ordem de módulos, mesmo import map inline.
+   Os scripts são is:inline para o Astro NÃO processar (CDN + módulos de
+   public/assets/js continuam carregando como antes, com fallback por falha).
+   O conteúdo do importmap vai por set:html — o compilador do Astro devora
+   `{ }` escrito direto no template (virou expressão e saiu vazio no dist). */
+const importMap = JSON.stringify({
+  imports: {
+    three: 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js',
+    'three/addons/': 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/',
+  },
+});
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>gul4rt — personal blog</title>
+<meta name="description" content="gul4rt — cybersecurity analyst. Notes on security, hardware and automation.">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- o importmap PRECISA ficar no HTML (a spec não permite arquivo separado) -->
+<script is:inline type="importmap" set:html={importMap}></script>
+
+<script is:inline defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+<!-- caminhos relativos: funciona em github.io/repo/, no repo raiz e no domínio próprio -->
+<link rel="stylesheet" href="./assets/css/tokens.css">
+<link rel="stylesheet" href="./assets/css/base.css">
+<link rel="stylesheet" href="./assets/css/components.css">
+<link rel="stylesheet" href="./assets/css/sections.css">
+</head>
+<body>
+
+<div class="noise" aria-hidden="true"></div>
+
+<!-- cursor customizado -->
+<div id="curDot" aria-hidden="true"></div>
+<div id="curRing" aria-hidden="true"><div class="ring-core"></div><span id="curLab"></span></div>
+
+<!-- trilha lateral de progresso -->
+<aside id="rail" aria-hidden="true">
+  <span id="railPct">000%</span>
+  <div class="rail-track" id="railTrack"><div id="railFill"></div></div>
+</aside>
+
+<header id="siteHeader">
+  <a id="logoLink" href="#top" data-cursor="TOP">gul4rt<span class="blink"></span></a>
+  <nav class="nav" aria-label="main">
+    <a class="nav-link active" id="navAbout" href="#about" data-cursor="GO"><span class="ni">01</span>ABOUT</a>
+    <a class="nav-link" id="navPub" href="./posts/" data-cursor="GO"><span class="ni">02</span>PUBLICATIONS</a>
+    <a class="nav-link" id="navContact" href="#contact" data-cursor="GO"><span class="ni">03</span>CONTACT</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="top">
+    <div class="hero-deco">
+      <div class="plx" data-parallax="0.14"><div class="gear-hero" id="gearHero"></div></div>
+      <div class="plx" data-parallax="0.07">
+        <svg class="circuit" viewBox="0 0 260 640" fill="none" preserveAspectRatio="xMidYMin meet">
+          <path class="trace" pathLength="1" d="M40 0 V140 L90 190 V320 L40 370 V520 L90 570 V640" stroke="rgba(255,59,48,.55)" stroke-width="1.5"/>
+          <path class="trace" pathLength="1" d="M40 80 H200 V160" stroke="rgba(255,59,48,.45)" stroke-width="1.5"/>
+          <path class="trace" pathLength="1" d="M40 220 H150" stroke="rgba(255,59,48,.45)" stroke-width="1.5"/>
+          <path class="trace" pathLength="1" d="M90 320 H180" stroke="rgba(255,59,48,.45)" stroke-width="1.5"/>
+          <path class="trace" pathLength="1" d="M40 460 H130" stroke="rgba(255,59,48,.45)" stroke-width="1.5"/>
+          <circle class="pad" cx="200" cy="160" r="4" stroke="rgba(255,176,58,.7)" stroke-width="1.5"/>
+          <circle class="pad" cx="150" cy="220" r="4" stroke="rgba(255,176,58,.7)" stroke-width="1.5"/>
+          <circle class="pad" cx="180" cy="320" r="4" stroke="rgba(255,176,58,.7)" stroke-width="1.5"/>
+          <circle class="pad" cx="130" cy="460" r="4" stroke="rgba(255,176,58,.7)" stroke-width="1.5"/>
+          <circle class="pad" cx="90" cy="190" r="3" fill="rgba(255,107,107,.6)"/>
+          <circle class="pad" cx="40" cy="370" r="3" fill="rgba(255,107,107,.6)"/>
+        </svg>
+      </div>
+      <span class="cx" data-parallax="0.05" style="left:14%;top:20%">+</span>
+      <span class="cx" data-parallax="0.09" style="left:70%;top:72%">+</span>
+      <span class="cx" data-parallax="0.04" style="left:38%;top:84%">+</span>
+      <span class="brk tl"></span><span class="brk tr"></span><span class="brk bl"></span><span class="brk br"></span>
+    </div>
+    <div class="wrap">
+      <p class="kicker"><b>//</b> PERSONAL LOG — SECURITY · HARDWARE · AUTOMATION</p>
+      <h1>
+        <span class="h1-line"><span class="hl-txt" data-text="BREAK IT."></span></span>
+        <span class="h1-line"><span class="hl-txt" data-text="UNDERSTAND IT."></span></span>
+        <span class="h1-line"><span class="phos"><span class="hl-txt" data-text="BUILD IT BACK."></span></span><span class="block-cursor"></span></span>
+      </h1>
+      <p class="hero-sub">Notes from a cybersecurity analyst — defense, automation, and the hardware in between. Occasional solder fumes included.</p>
+      <div class="hero-meta">
+        <span>OPERATOR: <b>gul4rt</b></span><span class="sep">/</span>
+        <span>ROLE: CYBERSECURITY ANALYST</span><span class="sep">/</span>
+        <span>SYS.TIME <b id="clock">--:--:--</b></span><span class="sep">/</span>
+        <span><i class="dot"></i>ONLINE</span>
+      </div>
+    </div>
+    <div class="scroll-cue"><i data-lucide="arrow-down"></i><span>SCROLL TO DECRYPT</span></div>
+  </section>
+
+  <!-- ============ SEC.01 — ABOUT ============ -->
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head rv-f"><span class="sec-tag" data-scramble><b>//</b> SEC.01 — ABOUT</span><span class="sec-line"></span></div>
+      <h2 class="h2"><span class="lm"><span class="li">About</span></span><span class="lm"><span class="li alt">me.</span></span></h2>
+      <div class="about-grid">
+        <div class="about-txt">
+          <!-- EDITE AQUI: texto do about (a prosa fica no HTML mesmo) -->
+          <p class="rv-f">I'm a <em class="hl">Cybersecurity Analyst</em> with <em class="hl">4 years of experience</em> across multiple disciplines within the Information Security field.</p>
+          <p class="rv-f" style="transition-delay:.12s">I enjoy turning security challenges into <em class="hl">practical solutions</em>, exploring technology, automation, and engineering.</p>
+          <p class="rv-f" style="transition-delay:.24s">Outside of cybersecurity, I study <em class="hl">electronics and robotics</em>, exploring microcontrollers, circuits, and programming to understand and build things <em class="hl">beyond the screen</em>.</p>
+        </div>
+        <div class="dossier rv-f" style="transition-delay:.3s">
+          <span class="screw s1" style="--sr:23deg"></span><span class="screw s2" style="--sr:-58deg"></span>
+          <span class="screw s3" style="--sr:76deg"></span><span class="screw s4" style="--sr:-12deg"></span>
+          <div class="dos-head"><span><b>//</b> DOSSIER</span><b>NO. 047</b></div>
+          <!-- EDITE AQUI: dados do dossier -->
+          <dl style="margin:0">
+            <div class="drow"><dt>HANDLE</dt><dd>gul4rt</dd></div>
+            <div class="drow"><dt>ROLE</dt><dd>CYBERSECURITY ANALYST</dd></div>
+            <div class="drow"><dt>DISCIPLINE</dt><dd>INFOSEC — BLUE</dd></div>
+            <div class="drow"><dt>EXPERIENCE</dt><dd>4+ YEARS</dd></div>
+            <div class="drow"><dt>CERTIFIED</dt><dd id="certTicker">AZ-900 — MICROSOFT AZURE FUNDAMENTALS</dd></div>
+            <div class="drow"><dt>LOCATION</dt><dd>[ Brazil ]</dd></div>
+            <div class="drow"><dt>STATUS</dt><dd class="st"><i class="dot"></i>ONLINE</dd></div>
+          </dl>
+          <svg id="barcode" aria-hidden="true"></svg>
+          <div class="dos-id">ID 047-GRT</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SEC.02 — TRACK RECORD ============ -->
+  <section id="track">
+    <div class="wrap">
+      <div class="sec-head rv-f"><span class="sec-tag" data-scramble><b>//</b> SEC.02 — TRACK RECORD</span><span class="sec-line"></span></div>
+      <h2 class="h2"><span class="lm"><span class="li">Service</span></span><span class="lm"><span class="li alt">history.</span></span></h2>
+
+      <!-- empresas: edite em assets/js/data/employers.js -->
+      <div class="car-stage rv-f" id="carStage" data-cursor="DRAG">
+        <h3 class="car-name" id="carName">Celcoin</h3>
+        <div class="car-meta" id="carSector">EMP-001 · FINTECH — PAYMENTS INFRASTRUCTURE</div>
+        <div class="car-role" id="carRole">CYBER SECURITY ANALYST</div>
+        <div class="car-period" id="carPeriod">04/2026 — PRESENT</div>
+        <div class="car-tags-label">HANDS-ON WITH</div>
+        <div class="car-tags" id="carTags"></div>
+      </div>
+      <div class="car-ctrl rv-f">
+        <span id="carIdx">01 / 03</span>
+        <div class="car-ticks" id="carTicks"><span class="on"></span><span></span><span></span></div>
+        <span class="car-spacer"></span>
+        <button class="cbtn" id="carPrev" data-cursor="PREV" aria-label="previous employer"><i data-lucide="chevron-left"></i></button>
+        <button class="cbtn" id="carNext" data-cursor="NEXT" aria-label="next employer"><i data-lucide="chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SEC.03 — OFF-SCREEN (3D) ============ -->
+  <section id="hobbies">
+    <div class="wrap">
+      <div class="sec-head rv-f"><span class="sec-tag" data-scramble><b>//</b> SEC.03 — OFF-SCREEN</span><span class="sec-line"></span></div>
+      <h2 class="h2"><span class="lm"><span class="li">Beyond the</span></span><span class="lm"><span class="li alt">screen.</span></span></h2>
+      <div class="mcu-intro rv-f">
+        <p>The same curiosity, running at a different voltage. I study electronics and robotics — microcontrollers, circuits, and the firmware that ties them together — because understanding a system below the operating system is the deepest kind of security research I know.</p>
+        <p class="mcu-hint"><b>&gt;</b> drag the board to rotate it — pull the explode slider to take it apart, hover a component to inspect it</p>
+      </div>
+
+      <div class="stage-panel rv-f" id="mcuWrap" data-cursor="ROTATE">
+        <span class="cb tl"></span><span class="cb tr"></span><span class="cb bl"></span><span class="cb br"></span>
+        <div class="hud hud-tl">&gt; INSPECTOR<span id="hudName">— HOVER A COMPONENT —</span><span id="hudDesc"></span></div>
+        <div class="hud hud-tr">GUL4RT-IND · REV.A</div>
+        <div class="hud hud-bl">DRAG ROTATE · DBL-CLICK RESET · PINCH TO ZOOM</div>
+      </div>
+
+      <div class="mcu-controls rv-f">
+        <div class="ctl-slider" id="slExplode">
+          <div class="sl-ends"><span>ASSEMBLED</span><span>EXPLODED</span></div>
+          <div class="sl-body" role="slider" tabindex="0" aria-label="explode view" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-cursor="SLIDE">
+            <div class="sl-track"></div><div class="sl-fill"></div><div class="sl-thumb"></div>
+          </div>
+        </div>
+        <div class="ctl-slider" id="slZoom" style="max-width:220px">
+          <div class="sl-ends"><span>WIDE</span><span>CLOSE</span></div>
+          <div class="sl-body" role="slider" tabindex="0" aria-label="zoom" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-cursor="SLIDE">
+            <div class="sl-track"></div><div class="sl-fill"></div><div class="sl-thumb"></div>
+          </div>
+        </div>
+        <div class="ctl-btns">
+          <button class="cbtn" id="zoomOut" data-cursor="OUT" aria-label="zoom out"><i data-lucide="zoom-out"></i></button>
+          <button class="cbtn" id="zoomIn" data-cursor="IN" aria-label="zoom in"><i data-lucide="zoom-in"></i></button>
+          <button class="cbtn" id="viewReset" data-cursor="RESET" aria-label="reset view"><i data-lucide="rotate-ccw"></i></button>
+        </div>
+      </div>
+      <p class="mcu-note rv-f"><b>//</b> the TX/RX LEDs on the board mirror your activity on this page — scroll around and watch them blink</p>
+    </div>
+  </section>
+
+  <!-- ============ SEC.04 — FOCUS AREAS ============ -->
+  <section id="focus">
+    <div class="wrap">
+      <div class="sec-head rv-f"><span class="sec-tag" data-scramble><b>//</b> SEC.04 — FOCUS AREAS</span><span class="sec-line"></span></div>
+      <h2 class="h2"><span class="lm"><span class="li">Current</span></span><span class="lm"><span class="li alt">focus.</span></span></h2>
+
+      <!-- as linhas são renderizadas por main.js a partir de assets/js/data/focus.js -->
+      <div class="f-heads"><span>IDX</span><span>MODULE</span><span>STATE</span></div>
+      <div id="focusRows"></div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ SEC.05 — CONTATO ============ -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="sec-head rv-f"><span class="sec-tag" data-scramble><b>//</b> SEC.05 — CONTACT</span><span class="sec-line"></span></div>
+    <h2 class="h2"><span class="lm"><span class="li">Open a</span></span><span class="lm"><span class="li alt">channel.</span></span></h2>
+    <p class="contact-lead rv-f">No forms, no trackers. Whether it's a security question, an electronics rabbit hole, or a robot that misbehaves — reach me on GitHub or LinkedIn and I'll read it.</p>
+    <div class="socials rv-f">
+      <a class="soc" id="ghLink" data-cursor="OPEN"><i data-lucide="git-branch"></i>GITHUB</a>
+      <a class="soc" id="liLink" data-cursor="OPEN"><i data-lucide="briefcase"></i>LINKEDIN</a>
+    </div>
+    <div class="foot-gears" id="gearPair" aria-hidden="true"><div class="fg fg1"></div><div class="fg fg2"></div></div>
+    <div class="foot-bar">
+      <span>© <span id="footYear">2026</span> GUL4RT — ALL SYSTEMS NOMINAL</span>
+      <span class="eof">EOF // TRANSMISSION ENDS</span>
+      <span>HANDCRAFTED HTML — VIEW-SOURCE ENCOURAGED</span>
+    </div>
+  </div>
+</footer>
+
+<div id="toasts" aria-live="polite"></div>
+
+<script is:inline type="module" src="./assets/js/main.js"></script>
+</body>
+</html>
