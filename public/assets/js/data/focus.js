@@ -2,7 +2,7 @@
    state: 'ACTIVE' | 'RAMPING' | 'STANDBY' */
 export const focusAreas = [
   { title: 'Detection Engineering',
-    desc:  'Monitoring, triage and incident response — finding the needle before it stings.',
+    desc:  'Monitoring, triage and incident response',
     state: 'ACTIVE' },
   { title: 'Automation & Tooling',
     desc:  'Security automation, scripting and workflow development.',

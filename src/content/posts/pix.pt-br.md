@@ -1,6 +1,6 @@
 ---
 title: "Rascunho sobre o Pix"
-description: "Rascunho sobre o Pix: o que acontece entre tocar em enviar e o dinheiro chegar — PSPs, DICT e SPI em uma primeira passada."
+description: "Uma introdução à arquitetura do Pix: o papel dos PSPs, a consulta ao DICT e a liquidação no SPI."
 date: 2026-11-07
 lang: pt-br
 slug: pix

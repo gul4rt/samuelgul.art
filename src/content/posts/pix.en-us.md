@@ -1,6 +1,6 @@
 ---
 title: "A draft about Pix"
-description: "A draft about Pix: what happens between tapping send and the money arriving — PSPs, DICT and SPI in a first pass."
+description: "An introduction to Pix's architecture: what PSPs do, how DICT resolves keys and how SPI settles it all."
 date: 2026-11-07
 lang: en-us
 slug: pix
