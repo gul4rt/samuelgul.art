@@ -5,15 +5,15 @@ export const focusAreas = [
     desc:  'Monitoring, triage and incident response — finding the needle before it stings.',
     state: 'ACTIVE' },
   { title: 'Automation & Tooling',
-    desc:  'If I do it twice, it becomes a script. If the script survives a week, it becomes a pipeline.',
+    desc:  'Security automation, scripting and workflow development.',
     state: 'ACTIVE' },
   { title: 'Electronics & Robotics',
-    desc:  'Microcontrollers, circuits and firmware — security thinking applied below the OS.',
+    desc:  'Microcontrollers, embedded systems and firmware.',
     state: 'RAMPING' },
   { title: 'Network Security',
-    desc:  'Segmentation, hardening and traffic analysis across hybrid environments.',
+    desc:  'Network architecture, traffic analysis and hardening.',
     state: 'ACTIVE' },
     { title: 'AI Security',
-    desc:  'Securing the models, and the pipelines that feed them.',
-    state: 'ACTIVE' }
+    desc:  'AI model security and secure development pipelines.',
+    state: 'RAMPING' }
 ];

@@ -5,7 +5,13 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const posts = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
+  loader: glob({
+    pattern: '**/*.md',
+    base: './src/content/posts',
+    // id único por entrada: o default (nome do arquivo) colide no par bilíngue
+    // (pix.pt-br.md e pix.en-us.md virariam o mesmo id `pix` e um seria descartado)
+    generateId: ({ data }) => `${data.slug}.${data.lang}`,
+  }),
   schema: z.object({
     /** título no idioma do arquivo */
     title: z.string(),
