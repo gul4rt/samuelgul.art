@@ -12,6 +12,23 @@
 .nav-link.active{color:var(--g1)} .nav-link.active .ni{color:var(--acc)}
 .nav-link.active::after{content:'';position:absolute;left:0;right:0;bottom:-3px;height:1px;background:var(--g3)}
 
+/* botão de menu (só existe visualmente no mobile; o painel é a própria .nav) */
+.menu-btn{display:none;width:40px;height:34px;flex-direction:column;justify-content:center;align-items:center;gap:7px;background:none;border:1px solid var(--line);cursor:pointer;padding:0;transition:border-color .25s}
+.menu-btn span{display:block;width:16px;height:1px;background:var(--ink);transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+#siteHeader.menu-open .menu-btn{border-color:var(--g3)}
+#siteHeader.menu-open .menu-btn span:first-child{transform:translateY(4px) rotate(45deg)}
+#siteHeader.menu-open .menu-btn span:last-child{transform:translateY(-4px) rotate(-45deg)}
+#siteHeader.menu-open{background:rgba(11,11,12,.92);backdrop-filter:blur(9px);border-color:var(--line)}
+/* nav vira painel dropdown abaixo do header; some sem layout quebrado */
+@media(max-width:560px){
+  .menu-btn{display:flex}
+  .nav{position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:rgba(11,11,12,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:4px var(--edge) 14px;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px);transition:opacity .3s ease,transform .3s cubic-bezier(.2,.7,.2,1),visibility 0s .3s}
+  #siteHeader.menu-open .nav{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .3s ease,transform .3s cubic-bezier(.2,.7,.2,1)}
+  .nav-link{padding:14px 0;font-size:12px;border-bottom:1px dashed rgba(255,107,107,.14)}
+  .nav-link:last-child{border-bottom:0}
+  .nav-link.active::after{display:none}
+}
+
 /* ===== HERO ===== */
 .hero{min-height:100svh;display:flex;align-items:center;position:relative;overflow:hidden;padding:130px 0 100px}
 .hero .wrap{position:relative;z-index:2}
@@ -131,7 +148,7 @@ body.scrolled .scroll-cue{opacity:0;transition-delay:0s}
 .frow:hover .f-idx{color:var(--acc)}
 .f-main h3{font:600 1.32rem var(--fh);margin:0 0 7px;letter-spacing:-.01em}
 .f-main p{margin:0;color:var(--dim);font-size:.94rem;max-width:56ch}
-.f-tag{font:500 10px var(--fm);letter-spacing:.16em;padding:6px 10px;text-align:left;border:1px solid var(--line);color:var(--dim)}
+.f-tag{display:flex;align-items:center;justify-content:center;text-align:center;font:500 10px var(--fm);letter-spacing:.16em;padding:6px 8px;border:1px solid var(--line);color:var(--dim)}
 .f-tag.t-active{color:var(--g1);border-color:rgba(255,107,107,.4)}
 .f-tag.t-ramp{color:var(--acc);border-color:rgba(255,176,58,.4)}
 @media(max-width:860px){

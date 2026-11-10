@@ -22,17 +22,42 @@ export function initNav(){
   Object.assign($('#ghLink'), { href: site.github }, ext);
   Object.assign($('#liLink'), { href: site.linkedin }, ext);
 
+  const headerEl = $('#siteHeader');
+
+  /* menu mobile: hambúrguer alterna o painel (.nav reposicionado via CSS) */
+  const menuBtn = $('#menuBtn');
+  const closeMenu = () => {
+    headerEl.classList.remove('menu-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  };
+  menuBtn.addEventListener('click', () => {
+    const open = headerEl.classList.toggle('menu-open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+  /* fecha ao clicar fora do header e com Escape */
+  document.addEventListener('click', e => {
+    if (headerEl.classList.contains('menu-open') && !headerEl.contains(e.target)) closeMenu();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMenu();
+  });
+  /* se a viewport crescer pra lá do breakpoint, o painel some: resetar estado */
+  matchMedia('(max-width:560px)').addEventListener('change', closeMenu);
+
   /* menu */
   $('#navAbout').addEventListener('click', e => {
     e.preventDefault();
+    closeMenu();
     $('#about').scrollIntoView({ behavior: RM ? 'auto' : 'smooth' });
   });
   /* contato: rola direto pro fim da página (SEC.05) */
   $('#navContact').addEventListener('click', e => {
     e.preventDefault();
+    closeMenu();
     $('#contact').scrollIntoView({ behavior: RM ? 'auto' : 'smooth' });
   });
   /* publications agora é link pra posts/index.html (nada a fazer aqui) */
+  $('#navPub').addEventListener('click', closeMenu);
   $$('.soc[data-msg]').forEach(b => b.addEventListener('click', () => toast(b.dataset.msg)));
   $('#logoLink').addEventListener('click', e => {
     e.preventDefault();
@@ -71,7 +96,6 @@ export function initNav(){
   SECS.forEach(([id]) => secIO.observe(document.getElementById(id)));
 
   /* tick: progresso do rail + estado do header */
-  const headerEl = $('#siteHeader');
   ticks.push(({ y, progress }) => {
     railFill.style.height = (progress * 100).toFixed(1) + '%';
     railPct.textContent = String(Math.round(progress * 100)).padStart(3, '0') + '%';

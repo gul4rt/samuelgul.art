@@ -52,11 +52,12 @@ const importMap = JSON.stringify({
 
 <header id="siteHeader">
   <a id="logoLink" href="#top" data-cursor="TOP">gul4rt<span class="blink"></span></a>
-  <nav class="nav" aria-label="main">
+  <nav class="nav" id="navMenu" aria-label="main">
     <a class="nav-link active" id="navAbout" href="#about" data-cursor="GO"><span class="ni">01</span>ABOUT</a>
     <a class="nav-link" id="navPub" href="./posts/" data-cursor="GO"><span class="ni">02</span>PUBLICATIONS</a>
     <a class="nav-link" id="navContact" href="#contact" data-cursor="GO"><span class="ni">03</span>CONTACT</a>
   </nav>
+  <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navMenu" aria-label="open menu"><span></span><span></span></button>
 </header>
 
 <main>
