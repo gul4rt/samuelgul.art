@@ -14,4 +14,5 @@
   --line:rgba(255,107,107,.13); --line-2:rgba(255,107,107,.28);
   --fh:'Space Grotesk',sans-serif; --fb:'Inter',sans-serif; --fm:'IBM Plex Mono',monospace;
   --edge:max(5vw,calc((100vw - 1180px)/2));
+  --rail-w:44px; /* zona reservada da rail lateral (largura pintada + folga); o conteúdo nunca invade */
 }

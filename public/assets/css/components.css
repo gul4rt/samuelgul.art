@@ -35,7 +35,10 @@ html.cursor-fx,html.cursor-fx *{cursor:none!important}
 #curLab{position:absolute;left:28px;top:0;transform:translateY(-50%);font:500 9px var(--fm);letter-spacing:.22em;color:var(--acc);opacity:0;transition:opacity .2s;white-space:nowrap}
 
 /* ===== rail (trilha lateral) ===== */
-#rail{position:fixed;left:26px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;align-items:center;gap:14px}
+/* vive DENTRO da margem esquerda do .wrap (4vw): zona de --rail-w ancorada na
+   borda, filhos centralizados — a área pintada nunca passa de ~35px, garantindo
+   folga do conteúdo (4vw ≥ 51px quando visível, gap ≥ 16px) */
+#rail{position:fixed;left:0;top:50%;transform:translateY(-50%);width:var(--rail-w);z-index:40;display:flex;flex-direction:column;align-items:center;gap:14px}
 #railPct{font:500 9px var(--fm);letter-spacing:.14em;color:var(--faint)}
 .rail-track{position:relative;width:1px;height:232px;background:rgba(255,107,107,.18)}
 #railFill{position:absolute;top:0;left:0;width:1px;height:0;background:var(--g1)}
@@ -43,7 +46,8 @@ html.cursor-fx,html.cursor-fx *{cursor:none!important}
 .rail-dot.on{border-color:var(--acc);background:var(--acc)}
 .rail-dot .rl{position:absolute;left:17px;top:50%;transform:translateY(-50%);white-space:nowrap;pointer-events:none;font:500 9px var(--fm);letter-spacing:.2em;color:var(--dim);opacity:0;transition:opacity .25s}
 .rail-dot:hover .rl{opacity:1}
-@media(max-width:1140px){#rail{display:none}}
+/* some quando a margem esquerda (4vw) não comporta a zona da rail com folga */
+@media(max-width:1280px){#rail{display:none}}
 
 /* ===== botões ===== */
 .cbtn{width:44px;height:44px;display:grid;place-items:center;cursor:pointer;background:transparent;border:1px solid var(--line);color:var(--dim);transition:.25s}
