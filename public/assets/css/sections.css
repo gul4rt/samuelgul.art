@@ -46,13 +46,18 @@ body.loaded .circuit .trace{stroke-dashoffset:0}
 body.loaded .circuit .pad{opacity:1}
 .cx{position:absolute;font:400 14px var(--fm);color:var(--faint)}
 .brk{position:absolute;width:22px;height:22px;border:0 solid rgba(255,107,107,.4)}
-.brk.tl{top:96px;left:var(--edge);border-left-width:1px;border-top-width:1px}
-.brk.tr{top:96px;right:var(--edge);border-right-width:1px;border-top-width:1px}
-.brk.bl{bottom:42px;left:var(--edge);border-left-width:1px;border-bottom-width:1px}
-.brk.br{bottom:42px;right:var(--edge);border-right-width:1px;border-bottom-width:1px}
+/* cantos da moldura: alinhados com a borda do .wrap (92vw/1180px) e não com
+   --edge (5vw) — abaixo de ~1280px o wrap é mais largo que 2×--edge e o
+   texto vazava 1vw pra fora dos cantos */
+.brk.tl{top:96px;left:calc((100% - min(1180px,92vw))/2);border-left-width:1px;border-top-width:1px}
+.brk.tr{top:96px;right:calc((100% - min(1180px,92vw))/2);border-right-width:1px;border-top-width:1px}
+.brk.bl{bottom:42px;left:calc((100% - min(1180px,92vw))/2);border-left-width:1px;border-bottom-width:1px}
+.brk.br{bottom:42px;right:calc((100% - min(1180px,92vw))/2);border-right-width:1px;border-bottom-width:1px}
 .kicker{font:500 12px var(--fm);letter-spacing:.24em;color:var(--g2);margin:0 0 28px}
 .kicker b{color:var(--acc);font-weight:500}
-h1{font:700 clamp(2.9rem,9.2vw,7.6rem)/0.99 var(--fh);letter-spacing:-.02em;text-transform:uppercase;margin:0 0 32px}
+/* floor baixo (1.9rem): acima de ~330px o 9.2vw domina; sem isso, o min de
+   2.9rem travava a fonte em 46px até ~500px e as linhas do h1 quebravam */
+h1{font:700 clamp(1.9rem,9.2vw,7.6rem)/0.99 var(--fh);letter-spacing:-.02em;text-transform:uppercase;margin:0 0 32px}
 .h1-line{display:block;min-height:1em}
 .h1-line .phos{color:var(--g1)}
 .h1-line .block-cursor{width:.5em;height:.72em;background:var(--g1);margin-left:.1em;animation:blink 1.1s steps(1) infinite}
@@ -69,6 +74,18 @@ body.loaded .scroll-cue{opacity:1}
 body.scrolled .scroll-cue{opacity:0;transition-delay:0s}
 .scroll-cue svg{width:13px;height:13px;animation:cue 1.8s ease-in-out infinite}
 @keyframes cue{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+/* hero em telas pequenas: respirar menos pra todo o conteúdo caber dentro
+   da moldura (cantos a 96px do topo e 42px da base) mesmo em 100svh baixo.
+   h1 sobe pra 10.5vw (ainda cabe "BUILD IT BACK." + cursor em 92vw) pra não
+   ficar menor que o h2 (floor 2.3rem); margens escalam com svh pra o
+   conteúdo preencher telas altas sem vácuo gigante em cima/embaixo */
+@media(max-width:560px){
+  .hero{padding:108px 0 88px}
+  .kicker{font-size:10px;letter-spacing:.18em;margin-bottom:24px}
+  h1{font-size:clamp(1.9rem,10.5vw,3.22rem);letter-spacing:-.03em;margin-bottom:clamp(26px,4svh,40px)}
+  .hero-sub{margin-bottom:clamp(32px,6svh,56px)}
+  .hero-meta{gap:10px 14px}
+}
 @media(max-width:900px){.gear-hero,.circuit{display:none}}
 
 /* ===== ABOUT ===== */

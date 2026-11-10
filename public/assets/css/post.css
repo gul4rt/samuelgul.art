@@ -54,8 +54,15 @@
 .pi-tags span{font:400 10px var(--fm);letter-spacing:.14em;color:var(--dim);border:1px solid var(--line);padding:3px 9px}
 
 @media(max-width:640px){
-  .p-head{padding:14px 16px}
-  .p-back{letter-spacing:.1em}
+  /* header quebra em 2 linhas: logo + idiomas em cima, "voltar" com linha própria
+     (os 3 itens juntos passam de 400px e espremiam/transbordavam em telas de 360px) */
+  .p-head{padding:12px 16px;flex-wrap:wrap;gap:10px 12px}
+  /* idiomas: fonte um ponto acima e área de toque vertical (só o texto de 11px era difícil de clicar) */
+  .p-lang{gap:12px;font-size:12px}
+  .p-lang a,.p-lang span{padding:8px 0}
+  .p-lang a{padding:8px 2px}
+  /* escopo no header: o .p-back do rodapé do artigo mantém o layout em linha */
+  .p-head .p-back{order:3;flex:1 1 100%;letter-spacing:.1em;padding-top:10px;border-top:1px dashed rgba(255,107,107,.14)}
   .p-meta{margin-bottom:32px}
   .p-item{padding:20px 18px}
 }
